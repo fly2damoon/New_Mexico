@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12">
+			<h2 class="page-header text-center">LWRC Kids</h2>
+			<li class="btn pull-right"><a href="{{ url_for('team', id=0) }}">add</a>
+			</li>
+		</div>
+	</div>
+	<div class="row">
+		<div class="well">
+			<div class="container">
+			{% if kids.items|length == 0 %}
+				<div class="text-center">No kids added
+				</div>
+			{% endif %}
+
+			{% for kid in kids.items %}
+				<div class="col-lg-3 col-md-4 col-xs-6 thumb">
+					<a class="thumbnail" href="{{ url_for('kid', id=kid.id)}}">
+						<img class="img-responsive" src="">
+						{{ kid.first_name }}
+					</a>
+				</div>
+			{% endfor %}
+			</div>
+		</div>
+	</div>
+	<ul class="pager">
+		{% if kids.has_prev %}
+			<li class="previous"><a href="{{ url_for('kids', page=kids.prev_num) }}">Previous</a></li>
+		{% else %}
+			<li class="previous disabled"><a href="#">Previous</a></li>
+		{% endif %}
+		{% if kids.has_next %}
+			<li class="next"><a href="{{ url_for('kids', page=kids.next_num) }}">Next</a></li>
+		{% else %}
+			<li class="next disabled"><a href="#">Next</a></li>
+		{% endif %}
+	</ul>
+</div>
+{% endblock %}

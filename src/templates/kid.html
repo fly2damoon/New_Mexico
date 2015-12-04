@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block navbarlist %}
+	<li>
+		<a href="/">Home</a>
+	</li>
+	<li>
+		<a href="{{ url_for('lwrc') }}">LWRC</a>
+	</li>
+	<li >
+	  <a href="{{ url_for('teams') }}">Mission Teams</a>
+	</li>
+	<li class="active">
+	  <a href="{{ url_for('kids') }}">Kids</a>
+	</li>
+{% endblock %}
+{% block body %}
+<div class="container">
+	New Mexico Kids at Living Water Retreat Center
+</div>
+{% endblock %}
