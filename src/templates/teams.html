@@ -1,42 +1,91 @@
 {% extends "layout.html" %}
+{% import 'macros.html' as macros %}
 {% block body %}
 <div class="container">
-	<div class="row">
-		<div class="col-lg-12">
-			<h2 class="page-header text-center">New Mexico Mission Teams</h2>
-			<li class="btn pull-right"><a href="{{ url_for('team', id=0) }}">add</a>
-			</li>
-		</div>
-	</div>
-	<div class="row">
-		<div class="well">
-			<div class="container">
-			{% if teams.items|length == 0 %}
-				<div class="text-center">No teams added
-				</div>
-			{% endif %}
-			{% for team in teams.items %}
-				<div class="col-lg-3 col-md-4 col-xs-6 thumb">
-					<a class="thumbnail" href="{{ url_for('team', id=team.id)}}">
-						<img class="img-responsive" src="">
-						{{ team.year }}
-					</a>
-				</div>
-			{% endfor %}
-			</div>
-		</div>
-	</div>
-	<ul class="pager">
-		{% if teams.has_prev %}
-			<li class="previous"><a href="{{ url_for('teams', page=teams.prev_num) }}">Previous</a></li>
-		{% else %}
-			<li class="previous disabled"><a href="#">Previous</a></li>
-		{% endif %}
-		{% if teams.has_next %}
-			<li class="next"><a href="{{ url_for('teams', page=teams.next_num) }}">Next</a></li>
-		{% else %}
-			<li class="next disabled"><a href="#">Next</a></li>
-		{% endif %}
-	</ul>
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header text-center">New Mexico Mission Teams</h2>
+            <li class="btn pull-right">
+            <li>
+                <a href="#" data-toggle="modal" data-target="#teamadd">Add New Team</a>
+            </li>
+            <div class="modal fade" id="teamadd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <!--{% call macros.render_form(teamaddform, action_url=url_for('teams'), action_text='Team', class_='form-inline') %}-->
+                        <!--{{ macros.render_field(teamaddform.year, label_visible=true, placeholder='Year', type='year') }}-->
+                        <!--{{ macros.render_field(teamaddform.theme, label_visible=true, placeholder='Theme', type='theme') }}-->
+                        <!--{{ macros.render_field(teamaddform.verse, label_visible=true, placeholder='Verse', type='verse') }}-->
+                        <!--{% endcall %}-->
+                        <form action="/teams/" class="form-inline" method="post" name="team0">
+                            {{ teamaddform.hidden_tag() }}
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">	<span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">Add New Team</h4>
+                            </div>
+                            <div class="modal-body">
+                                {{ teamaddform.year(class="form-control", placeholder="YEAR") }}
+                                {% if teamaddform.year.errors %}
+                                    {% for e in teamaddform.year.errors %}
+                                    <p class="help-block">{{ e }}</p>
+                                    {% endfor %}
+                                {% endif %}
+                                {{ teamaddform.theme(class="form-control", placeholder="THEME")}}
+                                {% if teamaddform.theme.errors %}
+                                    {% for e in teamaddform.theme.errors %}
+                                    <p class="help-block">{{ e }}</p>
+                                    {% endfor %}
+                                {% endif %}
+                                {{ teamaddform.verse }}
+                                {% if teamaddform.verse.errors %}
+                                    {% for e in teamaddform.verse.errors %}
+                                    <p class="help-block">{{ e }}</p>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            <div class="checkbox">
+
+                            </div>
+                            <div class="modal-footer">
+                                <input type="submit" class="btn btn-primary" value="Add">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="well">
+            <div class="container">
+            {% if teams.items|length == 0 %}
+                <div class="text-center">No teams added
+                </div>
+            {% endif %}
+            {% for team in teams.items %}
+                <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                    <a class="thumbnail" href="{{ url_for('team', id=team.id)}}">
+                        <img class="img-responsive" src="">
+                        {{ team.year }}
+                    </a>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+    <ul class="pager">
+        {% if teams.has_prev %}
+            <li class="previous"><a href="{{ url_for('teams', page=teams.prev_num) }}">Previous</a></li>
+        {% else %}
+            <li class="previous disabled"><a href="#">Previous</a></li>
+        {% endif %}
+        {% if teams.has_next %}
+            <li class="next"><a href="{{ url_for('teams', page=teams.next_num) }}">Next</a></li>
+        {% else %}
+            <li class="next disabled"><a href="#">Next</a></li>
+        {% endif %}
+    </ul>
 </div>
 {% endblock %}
